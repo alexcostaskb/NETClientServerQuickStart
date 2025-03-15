@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace HelloWorld
 {
+    /// <summary>
+    /// A simple NetworkBehaviour that moves the object to a random position on the plane
+    /// </summary>
     public class HelloWorldManager : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,11 +40,14 @@ namespace HelloWorld
                 DisplaySubmitNewPositionButton();
             }
 
+            // End the GUI area
             GUILayout.EndArea();
         }
 
         private void DisplayStartButtons()
         {
+            // Display the start buttons
+
             if (GUILayout.Button("Host"))
             {
                 m_NetworkManager.StartHost();
@@ -60,6 +66,7 @@ namespace HelloWorld
 
         private void DisplayStatusLabels()
         {
+            // Display the transport and mode
             var mode = m_NetworkManager.IsHost ? "Host" : m_NetworkManager.IsServer ? "Server" : "Client";
 
             GUILayout.Label("Transport: " + m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
@@ -68,19 +75,28 @@ namespace HelloWorld
 
         private void DisplaySubmitNewPositionButton()
         {
+            // Display the submit new position button
             if (GUILayout.Button(m_NetworkManager.IsServer ? "Move" : "Request Position Change"))
             {
                 if (m_NetworkManager.IsServer && !m_NetworkManager.IsClient)
                 {
+                    // If the NetworkManager is a server and not a client
+
                     foreach (ulong uid in m_NetworkManager.ConnectedClientsIds)
                     {
+                        // move the player object of each client connected to the server to a random position on the plane
                         m_NetworkManager.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<HelloWorldPlayer>().Move();
                     }
                 }
                 else
                 {
+                    // If the NetworkManager is a client or a host
+
+                    // Get the local player object
                     var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
                     var player = playerObject.GetComponent<HelloWorldPlayer>();
+
+                    // Move the player
                     player.Move();
                 }
             }

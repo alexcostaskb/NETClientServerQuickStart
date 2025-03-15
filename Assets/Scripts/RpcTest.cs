@@ -1,8 +1,15 @@
 using Unity.Netcode;
 using UnityEngine;
 
+/// <summary>
+/// A simple NetworkBehaviour that sends an RPC (Remote Procedure Calls) to the server
+/// from the client that owns the NetworkObject of this NetworkBehaviour instance
+/// </summary>
 public class RpcTest : NetworkBehaviour
 {
+    /// <summary>
+    /// Called when the NetworkObject is spawned on the network
+    /// </summary>
     public override void OnNetworkSpawn()
     {
         //Only send an RPC to the server from the client that owns the NetworkObject of this NetworkBehaviour instance

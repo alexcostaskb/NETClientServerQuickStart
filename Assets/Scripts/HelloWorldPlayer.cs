@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace HelloWorld
 {
+    /// <summary>
+    /// A simple NetworkBehaviour that moves the object to a random position on the plane
+    /// </summary>
     public class HelloWorldPlayer : NetworkBehaviour
     {
         public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
@@ -11,6 +14,8 @@ namespace HelloWorld
         {
             if (IsOwner)
             {
+                // Only the owner of the object can move it
+
                 Move();
             }
         }
